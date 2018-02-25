@@ -15,7 +15,7 @@ namespace PicTag.UI
 
         public MenuModule()
         {
-            listView = View.LargeIcon;
+            listView = View.Tile;
         }
 
         internal void Bind(ToolStripMenuItem parent, ToolStripMenuItem collapseTree)

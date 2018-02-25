@@ -113,6 +113,7 @@ namespace PicTag.Data
                 }
                 File.Delete(tempPath);
             }
+            GC.Collect();
         }
 
         internal void Delete(Metadata image)

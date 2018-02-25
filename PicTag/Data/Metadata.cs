@@ -61,12 +61,7 @@ namespace PicTag.Data
             gpsDirectory = directories.OfType<GpsDirectory>().FirstOrDefault();
             if (gpsDirectory != null)
             {
-                //var longitudeStr = gpsDirectory?.GetDescription(GpsDirectory.TagLongitude);
-                //var latitudeStr = gpsDirectory?.GetDescription(GpsDirectory.TagLatitude);
                 var geolocation = gpsDirectory?.GetGeoLocation();
-
-                //LongitudeStr = longitudeStr;
-                //LatitudeStr = latitudeStr;
                 Latitude = geolocation.Latitude;
                 Longitude = geolocation.Longitude;
             }
@@ -85,18 +80,6 @@ namespace PicTag.Data
             LongitudeStr = GeoLocation.DecimalToDegreesMinutesSecondsString(Longitude);
 
             Source.SetPropertyItemString(ExifDirectoryBase.TagDateTimeOriginal, DateTimeOriginal.ToExifString());
-
-            //gpsDirectory.Set(GpsDirectory.TagLatitude, Latitude);
-            //gpsDirectory.Set(GpsDirectory.TagLongitude, Longitude);
-            //Source.SetPropertyItemString(GpsDirectory.TagLatitude, Latitude.ToString());
-            //Source.SetPropertyItemString(GpsDirectory.TagLongitude, Longitude.ToString());
-
-            //var value = GeoLocation.DecimalToDegreesMinutesSecondsString(Latitude);
-            //byte[] buffer = System.Text.Encoding.ASCII.GetBytes(value);
-            //PropertyItem propItem = Resources.Template.GetPropertyItem(GpsDirectory.TagLatitude);
-            //propItem.Len = buffer.Length;
-            //propItem.Value = buffer;
-            //Source.SetPropertyItem(propItem);
             Source.Geotag(Latitude, Longitude);
         }
 

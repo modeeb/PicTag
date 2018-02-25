@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,14 +12,12 @@ namespace PicTag.UI
 {
     class ListModule
     {
-        private MenuModule menu;
         private FormState source;
         private ListView list;
         private Panel panel;
 
-        public ListModule(MenuModule menu, FormState source)
+        public ListModule(FormState source)
         {
-            this.menu = menu;
             this.source = source;
             this.source.PropertyChanged += Source_PropertyChanged;
         }
@@ -46,10 +45,7 @@ namespace PicTag.UI
 
         internal void Populate()
         {
-            source.SelectedImages = null;
-            list.Items.Clear();
-            list.LargeImageList.Images.Clear();
-            list.SmallImageList.Images.Clear();
+            ClearAll();
 
             foreach (var image in source.Images)
             {
@@ -57,9 +53,28 @@ namespace PicTag.UI
                 list.SmallImageList.Images.Add(image.Name, image.Source);
                 var item = list.Items.Add(image.Name, image.Name);
                 item.Tag = image;
+                item.UseItemStyleForSubItems = false;
+                item.SubItems.AddRange(new string[] {
+                    image.DateTimeOriginal.ToLongDateString(),
+                    image.DateTimeOriginal.ToLongTimeString(),
+                    "Latitude " + image.LatitudeStr, "Longitude " + image.LongitudeStr }
+                    , Color.Gray, item.BackColor, item.Font);
             }
 
-            list.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            list.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+        }
+
+        private void ClearAll()
+        {
+            foreach (var image in source.Images)
+            {
+                image.Dispose();
+            }
+            source.SelectedImages = null;
+            list.Items.Clear();
+            list.LargeImageList.Images.Clear();
+            list.SmallImageList.Images.Clear();
+            GC.Collect();
         }
 
         internal void Delete()
