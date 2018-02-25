@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PicTag.Data;
+using PicTag.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,13 @@ namespace PicTag
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            FileSystem fs = new FileSystem();
+            FormState source = new FormState(fs);
+            MenuModule menu = new MenuModule();
+            ListModule list = new ListModule(menu, source);
+            TreeModule tree = new TreeModule(source);
+            Application.Run(new MainForm(menu, list, tree, source));
         }
     }
 }
