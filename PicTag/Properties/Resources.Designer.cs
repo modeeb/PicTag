@@ -61,6 +61,24 @@ namespace PicTag.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deleting....
+        /// </summary>
+        internal static string DeletingCaption {
+            get {
+                return ResourceManager.GetString("DeletingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the selected image(s)?.
+        /// </summary>
+        internal static string DeletingText {
+            get {
+                return ResourceManager.GetString("DeletingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Template {

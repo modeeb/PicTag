@@ -70,16 +70,28 @@ namespace PicTag.Data
 
         internal IEnumerable<Metadata> Images => listedImages;
 
-        internal void Save()
+        internal void SaveSelected()
+        {
+            Save(selectedImages);
+        }
+
+        internal void Save(IEnumerable<object> items)
+        {
+            var savinglist = items?.Cast<Metadata>();
+            if (savinglist != null)
+            {
+                foreach (var image in savinglist)
+                {
+                    fs.Save(image);
+                }
+            }
+        }
+
+        internal void SaveAs(string newPath)
         {
             if (selectedImages != null)
             {
-                foreach (var image in selectedImages)
-                {
-                    //image.UpdateImageMetadata();
-                    fs.Save(image);
-                }
-                OnPropertyChanged(nameof(SelectedFolder));
+                fs.SaveAs(imageInfo, newPath);
             }
         }
 
@@ -88,11 +100,26 @@ namespace PicTag.Data
             copiedMetadata = ImageInfo;
         }
 
+        internal void DeleteSelected()
+        {
+            if (selectedImages != null)
+            {
+                foreach (var image in selectedImages)
+                {
+                    fs.Delete(image);
+                }
+                OnPropertyChanged(nameof(SelectedFolder));
+            }
+        }
+
         internal void PasteMetadata()
         {
             if (copiedMetadata != null)
             {
-                ImageInfo.UpdateImageMetadata(copiedMetadata);
+                foreach (var image in selectedImages)
+                {
+                    image.UpdateImageMetadata(copiedMetadata);
+                }
                 OnPropertyChanged(nameof(ImageInfo));
             }
         }

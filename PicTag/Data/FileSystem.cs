@@ -1,6 +1,7 @@
 ﻿using PicTag.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -83,28 +84,40 @@ namespace PicTag.Data
 
         internal void Save(Metadata meta)
         {
-            meta.Source = Image.FromFile(meta.FullName);
-            meta.UpdateImageMetadata();
+            SaveAs(meta, meta.FullName);
+        }
 
-            string path = meta.FullName;
-            while (File.Exists(path))
+        internal void SaveAs(Metadata meta, string newPath)
+        {
+            string tempPath = newPath;
+            using (var stream = new FileStream(meta.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                path = Path.GetDirectoryName(path) + "\\_" + Path.GetFileName(path);
+                meta.Source = Image.FromStream(stream);
+                meta.UpdateImageMetadata();
+
+                while (File.Exists(tempPath))
+                {
+                    tempPath = Path.GetDirectoryName(tempPath) + "\\_" + Path.GetFileName(tempPath);
+                }
+                meta.Source.Save(tempPath);
             }
-            meta.Source.Save(path);
-            meta.Source.Dispose();
-            File.Delete(meta.FullName);
 
-            // release memory now
-            //Pic.Dispose();
-            //Pic = null;
-            //GC.Collect();
+            if (tempPath != newPath)
+            {
+                File.Delete(newPath);
 
-            //// delete the temporary picture
-            //File.Delete(FilenameTemp);
+                using (var stream = new FileStream(tempPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    meta.Source = Image.FromStream(stream);
+                    meta.Source.Save(newPath);
+                }
+                File.Delete(tempPath);
+            }
+        }
 
-            //string new_path = Path.GetDirectoryName(meta.FullName) + "\\_" + Path.GetFileName(meta.FullName);
-            //meta.Source.Save(new_path);
+        internal void Delete(Metadata image)
+        {
+            File.Delete(image.FullName);
         }
 
         internal IEnumerable<Metadata> GetImages(string dir)
@@ -112,25 +125,27 @@ namespace PicTag.Data
             var imageFiles = GetImageFiles(new DirectoryInfo(dir));
             foreach (FileInfo file in imageFiles)
             {
-                using (
-                var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read)
-                    //;
-                    )
+                Metadata meta;
+                try
                 {
-                    Metadata meta;
-                    try
-                    {
-                        meta = new Metadata(stream);
-                        //Image image = Image.FromFile(file.FullName);
-                        //Metadata meta = image.GetMetadata();
-                        meta.AppendFileInfo(file.Name, file.FullName, file.LastWriteTime);
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
-                    yield return meta;
+                    meta = GetMetadata(file);
                 }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message + " " + file.FullName);
+                    continue;
+                }
+                yield return meta;
+            }
+        }
+
+        private Metadata GetMetadata(FileInfo file)
+        {
+            using (var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                Metadata meta = new Metadata(stream);
+                meta.AppendFileInfo(file.Name, file.FullName, file.LastWriteTime);
+                return meta;
             }
         }
 

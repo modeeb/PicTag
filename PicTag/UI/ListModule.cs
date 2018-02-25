@@ -61,5 +61,25 @@ namespace PicTag.UI
 
             list.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+
+        internal void Delete()
+        {
+            source.DeleteSelected();
+            var items = from ListViewItem item
+                        in list.SelectedItems
+                        select item;
+            foreach (var item in items)
+            {
+                list.Items.Remove(item);
+            }            
+        }
+
+        internal void SaveAll()
+        {
+            var items = from ListViewItem item
+                        in list.Items
+                        select item.Tag;
+            source.Save(items);
+        }
     }
 }

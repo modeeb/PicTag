@@ -1,4 +1,5 @@
 ﻿using PicTag.Data;
+using PicTag.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,10 +55,33 @@ namespace PicTag.UI
             }
         }
 
+        private void ToolStripButton3_Click(object sender, EventArgs e)
+        {
+            ValidateChildren();
+            source.SaveSelected();
+        }
+
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (source.ImageInfo != null)
+            {
+                ValidateChildren();
+                saveFileDialog1.InitialDirectory = source.SelectedFolder;
+                saveFileDialog1.FileName = source.ImageInfo.Name;
+                saveFileDialog1.DefaultExt = System.IO.Path.GetExtension(source.ImageInfo.Name);
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    var newPath = saveFileDialog1.FileName;
+                    source.SaveAs(newPath);
+                }
+                list.Populate();
+            }
+        }
+
         private void SaveToolStripButton_Click(object sender, EventArgs e)
         {
             ValidateChildren();
-            source.Save();
+            list.SaveAll();
         }
 
         private void CopyToolStripButton_Click(object sender, EventArgs e)
@@ -68,6 +92,17 @@ namespace PicTag.UI
         private void PasteToolStripButton_Click(object sender, EventArgs e)
         {
             source.PasteMetadata();
+        }
+
+        private void ToolStripButton1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Resources.DeletingText, Resources.DeletingCaption, MessageBoxButtons.YesNo);
+            list.Delete();
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
