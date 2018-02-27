@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,11 +36,6 @@ namespace PicTag.Data
                 lng = -lng;
             }
 
-            //MemoryStream ms = new MemoryStream();
-            //image.Save(ms, ImageFormat.Jpeg);
-            //ms.Seek(0, SeekOrigin.Begin);
-
-            //Image img = Image.FromStream(ms);
             AddProperty(image, ExifTagGPSVersionID, ExifTypeByte, new byte[] { 2, 3, 0, 0 });
             AddProperty(image, ExifTagGPSLatitudeRef, ExifTypeAscii, new byte[] { (byte)latHemisphere, 0 });
             AddProperty(image, ExifTagGPSLatitude, ExifTypeRational, ConvertToRationalTriplet(lat));

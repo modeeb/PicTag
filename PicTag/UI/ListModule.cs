@@ -10,27 +10,42 @@ using PicTag.Data;
 
 namespace PicTag.UI
 {
+    class ListViewItem<T> : ListViewItem
+    {
+        public new T Tag { get; set; }
+    }
+
     class ListModule
     {
         private FormState source;
+        private MenuModule menu;
         private ListView list;
         private Panel panel;
 
-        public ListModule(FormState source)
+        public ListModule(FormState source, MenuModule menu)
         {
             this.source = source;
+            this.menu = menu;
             this.source.PropertyChanged += Source_PropertyChanged;
+            this.menu.PropertyChanged += Source_PropertyChanged;
         }
 
         private void Source_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(source.SelectedFolder) && list != null)
+            switch (e.PropertyName)
             {
-                Populate();
-            }
-            if (e.PropertyName == nameof(source.ImageInfo) && panel != null)
-            {
-                panel.Visible = source.ImageInfo != null;
+                case (nameof(source.ImageInfo)):
+                    panel.Visible = source.ImageInfo != null;
+                    break;
+                case (nameof(source.SelectedFolder)):
+                    Populate();
+                    break;
+                case (nameof(menu.OrderBy)):
+                case (nameof(menu.Ascending)):
+                    Sort();
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -38,7 +53,7 @@ namespace PicTag.UI
         {
             this.list = list;
             this.panel = panel;
-            list.ItemSelectionChanged += (o, e) => source.SelectedImages = from ListViewItem item 
+            list.ItemSelectionChanged += (o, e) => source.SelectedImages = from ListViewItem<Metadata> item 
                                                                            in list.SelectedItems
                                                                            select item.Tag;
         }
@@ -46,22 +61,26 @@ namespace PicTag.UI
         internal void Populate()
         {
             ClearAll();
+            Sort();
 
             foreach (var image in source.Images)
             {
-                list.LargeImageList.Images.Add(image.Name, image.Source);
-                list.SmallImageList.Images.Add(image.Name, image.Source);
-                var item = list.Items.Add(image.Name, image.Name);
-                item.Tag = image;
-                item.UseItemStyleForSubItems = false;
+                list.LargeImageList.Images.Add(image.Name, image.Source.ResizeToBounds(list.LargeImageList.ImageSize));
+                list.SmallImageList.Images.Add(image.Name, image.Source.ResizeToBounds(list.SmallImageList.ImageSize));
+                ListViewItem<Metadata> item = new ListViewItem<Metadata>
+                {
+                    Text = image.Name,
+                    ImageKey = image.Name,
+                    Tag = image,
+                    UseItemStyleForSubItems = false
+                };
                 item.SubItems.AddRange(new string[] {
                     image.DateTimeOriginal.ToLongDateString(),
                     image.DateTimeOriginal.ToLongTimeString(),
-                    "Latitude " + image.LatitudeStr, "Longitude " + image.LongitudeStr }
-                    , Color.Gray, item.BackColor, item.Font);
+                    image.LatitudeStr + ", " + image.LongitudeStr },
+                    Color.Gray, item.BackColor, item.Font);
+                list.Items.Add(item);
             }
-
-            list.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void ClearAll()
@@ -75,6 +94,11 @@ namespace PicTag.UI
             list.LargeImageList.Images.Clear();
             list.SmallImageList.Images.Clear();
             GC.Collect();
+        }
+
+        private void Sort()
+        {
+            list.ListViewItemSorter = Comparer<ListViewItem<Metadata>>.Create((i1, i2) => Metadata.Compare(i1.Tag, i2.Tag, menu.OrderBy, menu.Ascending));
         }
 
         internal void Delete()
@@ -91,7 +115,7 @@ namespace PicTag.UI
 
         internal void SaveAll()
         {
-            var items = from ListViewItem item
+            var items = from ListViewItem<Metadata> item
                         in list.Items
                         select item.Tag;
             source.Save(items);

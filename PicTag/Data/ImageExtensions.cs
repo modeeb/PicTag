@@ -74,6 +74,26 @@ namespace PicTag.Data
             }
         }
 
+        internal static Bitmap ResizeToBounds(this Image image, Size bounds)
+        {
+            return new Bitmap(image);
+
+            int maxDimension = Math.Max(image.Height, image.Width);
+            int minDimension = Math.Min(bounds.Height, bounds.Width);
+            double Ratio = maxDimension / minDimension;
+            int height = (int)(image.Height / Ratio);
+            int width = (int)(image.Width / Ratio);
+            Size newSize = new Size(height, width);
+
+
+            var brush = new SolidBrush(Color.Black);
+
+            //var graph = Graphics.FromImage(image);
+            //graph.FillRectangle(brush, new RectangleF(0, 0, width, height));
+            //graph.DrawImage(image, new Rectangle(((int)width - scaleWidth) / 2, ((int)height - scaleHeight) / 2, scaleWidth, scaleHeight));
+            return new Bitmap(image, newSize);
+        }
+
         internal static DateTime? GetMetaDate(this Image image, int property)
         {
             var dateTime = image.GetMetaValue(property);

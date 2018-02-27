@@ -21,10 +21,10 @@ namespace PicTag
 
             FileSystem fs = new FileSystem();
             FormState source = new FormState(fs);
-            MenuModule menu = new MenuModule();
-            ListModule list = new ListModule(source);
+            MenuModule menu = new MenuModule(source);
             TreeModule tree = new TreeModule(source);
-            Application.Run(new MainForm(menu, list, tree, source));
+            ListModule list = new ListModule(source, menu);
+            Application.Run(new MainForm(source, menu, tree, list));
         }
     }
 }

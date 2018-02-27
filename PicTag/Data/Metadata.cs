@@ -7,15 +7,22 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
-using PicTag.Properties;
 
 namespace PicTag.Data
 {
+    internal enum OrderByEnum
+    {
+        Name,
+        Date,
+        Location
+    }
+
     internal class Metadata : IDisposable
     {
         private ExifSubIfdDirectory subIfdDirectory;
         private GpsDirectory gpsDirectory;
 
+        private double Distance => Math.Sqrt(Math.Pow(Latitude, 2) + Math.Pow(Longitude, 2));
         public Image Source { get; set; }
         public DateTime DateTimeOriginal { get; set; }
         public double Latitude { get; set; }
@@ -67,13 +74,13 @@ namespace PicTag.Data
             }
         }
 
-        public void UpdateImageMetadata(Metadata meta = null)
+        public void UpdateImageMetadata(Metadata fromMeta = null)
         {
-            if (meta != null)
+            if (fromMeta != null)
             {
-                DateTimeOriginal = meta.DateTimeOriginal;
-                Latitude = meta.Latitude;
-                Longitude = meta.Longitude;
+                DateTimeOriginal = fromMeta.DateTimeOriginal;
+                Latitude = fromMeta.Latitude;
+                Longitude = fromMeta.Longitude;
             }
 
             LatitudeStr = GeoLocation.DecimalToDegreesMinutesSecondsString(Latitude);
@@ -83,80 +90,18 @@ namespace PicTag.Data
             Source.Geotag(Latitude, Longitude);
         }
 
-        private static PropertyItem GetNewPropertyItem()
+        internal static int Compare(Metadata i1, Metadata i2, OrderByEnum orderBy, bool ascending)
         {
-            return (PropertyItem)System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(PropertyItem));
-        }
-
-        static void WriteCoordinatesToImage(string filename, double latitude, double longitude)
-        {
-            // copy longitude into byte array
-            byte[] bLat = BitConverter.GetBytes(latitude);
-            byte[] bLong = BitConverter.GetBytes(longitude);
-
-            //load the image to change
-            Image Pic = Image.FromFile(filename);
-
-            //put longitude into the right property item
-            PropertyItem[] PropertyItems = Pic.PropertyItems;
-            PropertyItems[0].Id = 0x0002;
-            PropertyItems[0].Type = 5;
-            PropertyItems[0].Len = bLong.Length;
-            PropertyItems[0].Value = bLong;
-            Pic.SetPropertyItem(PropertyItems[0]);
-
-            //put latitude into the right property item
-            PropertyItems = Pic.PropertyItems;
-            PropertyItems[0].Id = 0x0004;
-            PropertyItems[0].Type = 5;
-            PropertyItems[0].Len = bLat.Length;
-            PropertyItems[0].Value = bLat;
-            Pic.SetPropertyItem(PropertyItems[0]);
-
-            // we cannot store in the same image, so use a temporary image instead
-            string FilenameTemp = filename + ".temp";
-
-            // for lossless rewriting must rotate the image by 90 degrees!
-            EncoderParameters EncParms = new EncoderParameters(1);
-            EncParms.Param[0] = new EncoderParameter(Encoder.Transformation, (long)EncoderValue.TransformRotate90); ;
-
-            ImageCodecInfo CodecInfo = GetEncoderInfo("image/jpeg");
-            // now write the rotated image with new description
-            Pic.Save(FilenameTemp, CodecInfo, EncParms);
-
-            // for computers with low memory and large pictures: release memory now
-            Pic.Dispose();
-            Pic = null;
-            GC.Collect();
-
-            // delete the original file, will be replaced later
-            File.Delete(filename);
-
-            // now must rotate back the written picture
-            Pic = Image.FromFile(FilenameTemp);
-            EncParms.Param[0] = new EncoderParameter(Encoder.Transformation, (long)EncoderValue.TransformRotate270); ;
-            Pic.Save(filename, CodecInfo, EncParms);
-
-            // release memory now
-            Pic.Dispose();
-            Pic = null;
-            GC.Collect();
-
-            // delete the temporary picture
-            File.Delete(FilenameTemp);
-        }
-
-        private static ImageCodecInfo GetEncoderInfo(String mimeType)
-        {
-            int j;
-            ImageCodecInfo[] encoders;
-            encoders = ImageCodecInfo.GetImageEncoders();
-            for (j = 0; j < encoders.Length; ++j)
+            int factor = ascending ? 1 : -1;
+            switch (orderBy)
             {
-                if (encoders[j].MimeType == mimeType)
-                    return encoders[j];
+                case OrderByEnum.Name:
+                    return i1.Name.CompareTo(i2.Name) * factor;
+                case OrderByEnum.Location:
+                    return i1.Distance.CompareTo(i2.Distance) * factor;
+                default:
+                    return i1.DateTimeOriginal.CompareTo(i2.DateTimeOriginal) * factor;
             }
-            return null;
         }
 
         public void Dispose()

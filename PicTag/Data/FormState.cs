@@ -47,12 +47,12 @@ namespace PicTag.Data
             }
         }
 
-        public IEnumerable<object> SelectedImages
+        public IEnumerable<Metadata> SelectedImages
         {
             get => selectedImages;
             set
             {
-                selectedImages = value?.Cast<Metadata>();
+                selectedImages = value;
                 OnPropertyChanged();
                 ImageInfo = selectedImages?.FirstOrDefault();
             }
@@ -75,9 +75,8 @@ namespace PicTag.Data
             Save(selectedImages);
         }
 
-        internal void Save(IEnumerable<object> items)
+        internal void Save(IEnumerable<Metadata> savinglist)
         {
-            var savinglist = items?.Cast<Metadata>();
             if (savinglist != null)
             {
                 foreach (var image in savinglist)
