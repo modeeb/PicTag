@@ -117,6 +117,7 @@ namespace PicTag.Data
             {
                 foreach (var image in selectedImages)
                 {
+                    copiedMetadata.DateTimeOriginal = copiedMetadata.DateTimeOriginal.AddMilliseconds(1);
                     image.UpdateImageMetadata(copiedMetadata);
                 }
                 OnPropertyChanged(nameof(ImageInfo));

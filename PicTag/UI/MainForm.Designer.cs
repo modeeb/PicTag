@@ -73,22 +73,27 @@
             this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.menuModuleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.FileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DateTaken = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.TimeTaken = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Order = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Coords = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnDateTaken = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnTimeTaken = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnLocation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.lonText = new System.Windows.Forms.TextBox();
+            this.formStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lonStrText = new System.Windows.Forms.TextBox();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -113,8 +118,6 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.menuModuleBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.formStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -124,11 +127,11 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.menuModuleBindingSource)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.formStateBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formStateBindingNavigator)).BeginInit();
             this.formStateBindingNavigator.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.menuModuleBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.formStateBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -410,12 +413,16 @@
             this.cutToolStripButton,
             this.copyToolStripButton,
             this.pasteToolStripButton,
+            this.toolStripSeparator9,
+            this.toolStripButton4,
+            this.toolStripButton2,
             this.toolStripButton1,
             this.toolStripSeparator1,
-            this.helpToolStripButton});
+            this.helpToolStripButton,
+            this.toolStripButton5});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(365, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(417, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -499,6 +506,31 @@
             this.pasteToolStripButton.Text = "&Paste";
             this.pasteToolStripButton.Click += new System.EventHandler(this.PasteToolStripButton_Click);
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton4.Text = "Move previous";
+            this.toolStripButton4.Click += new System.EventHandler(this.ToolStripButton4_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "Move next";
+            this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2_Click);
+            // 
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -523,17 +555,26 @@
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
             // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton5.Text = "Save Data";
+            this.toolStripButton5.Visible = false;
+            // 
             // toolStripContainer1
             // 
             // 
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(911, 387);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(911, 446);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(911, 412);
+            this.toolStripContainer1.Size = new System.Drawing.Size(911, 471);
             this.toolStripContainer1.TabIndex = 3;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -558,35 +599,60 @@
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(911, 387);
+            this.splitContainer1.Size = new System.Drawing.Size(911, 446);
             this.splitContainer1.SplitterDistance = 163;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // menuModuleBindingSource
+            // 
+            this.menuModuleBindingSource.DataSource = typeof(PicTag.UI.MenuModule);
             // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(163, 387);
+            this.treeView1.Size = new System.Drawing.Size(163, 446);
             this.treeView1.TabIndex = 0;
             // 
             // listView1
             // 
+            this.listView1.AllowColumnReorder = true;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.FileName,
-            this.DateTaken,
-            this.TimeTaken,
-            this.Order,
-            this.Coords});
-            this.listView1.DataBindings.Add(new System.Windows.Forms.Binding("View", this.menuModuleBindingSource, "ListViewStyle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.columnFileName,
+            this.columnDateTaken,
+            this.columnTimeTaken,
+            this.columnLocation});
+            this.listView1.DataBindings.Add(new System.Windows.Forms.Binding("View", this.menuModuleBindingSource, "ListStyle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.LargeImageList = this.imageList1;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(744, 243);
+            this.listView1.ShowItemToolTips = true;
+            this.listView1.Size = new System.Drawing.Size(744, 302);
             this.listView1.SmallImageList = this.imageList2;
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // columnFileName
+            // 
+            this.columnFileName.Text = "FileName";
+            this.columnFileName.Width = 270;
+            // 
+            // columnDateTaken
+            // 
+            this.columnDateTaken.Text = "Date Taken";
+            this.columnDateTaken.Width = 150;
+            // 
+            // columnTimeTaken
+            // 
+            this.columnTimeTaken.Text = "Time Taken";
+            this.columnTimeTaken.Width = 100;
+            // 
+            // columnLocation
+            // 
+            this.columnLocation.Text = "Location";
+            this.columnLocation.Width = 160;
             // 
             // imageList1
             // 
@@ -611,7 +677,7 @@
             this.panel1.Controls.Add(this.latStrText);
             this.panel1.Controls.Add(this.dateTimePicker1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 243);
+            this.panel1.Location = new System.Drawing.Point(0, 302);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(744, 144);
             this.panel1.TabIndex = 7;
@@ -623,6 +689,10 @@
             this.lonText.Name = "lonText";
             this.lonText.Size = new System.Drawing.Size(132, 20);
             this.lonText.TabIndex = 5;
+            // 
+            // formStateBindingSource
+            // 
+            this.formStateBindingSource.DataSource = typeof(PicTag.Data.FormState);
             // 
             // lonStrText
             // 
@@ -826,19 +896,11 @@
             // 
             this.saveFileDialog1.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.tiff;*.wmf|All Files|*.*";
             // 
-            // menuModuleBindingSource
-            // 
-            this.menuModuleBindingSource.DataSource = typeof(PicTag.UI.MenuModule);
-            // 
-            // formStateBindingSource
-            // 
-            this.formStateBindingSource.DataSource = typeof(PicTag.Data.FormState);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(911, 436);
+            this.ClientSize = new System.Drawing.Size(911, 495);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -857,13 +919,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.menuModuleBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.formStateBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formStateBindingNavigator)).EndInit();
             this.formStateBindingNavigator.ResumeLayout(false);
             this.formStateBindingNavigator.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.menuModuleBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.formStateBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -921,11 +983,10 @@
         private System.Windows.Forms.ToolStripMenuItem foldersTreeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader FileName;
-        private System.Windows.Forms.ColumnHeader DateTaken;
-        private System.Windows.Forms.ColumnHeader TimeTaken;
-        private System.Windows.Forms.ColumnHeader Order;
-        private System.Windows.Forms.ColumnHeader Coords;
+        private System.Windows.Forms.ColumnHeader columnFileName;
+        private System.Windows.Forms.ColumnHeader columnDateTaken;
+        private System.Windows.Forms.ColumnHeader columnTimeTaken;
+        private System.Windows.Forms.ColumnHeader columnLocation;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.Panel panel1;
@@ -955,6 +1016,10 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
     }
 }
 

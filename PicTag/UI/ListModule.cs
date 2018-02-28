@@ -120,5 +120,37 @@ namespace PicTag.UI
                         select item.Tag;
             source.Save(items);
         }
+
+        internal void MoveSelectedUp()
+        {
+            var items = from ListViewItem<Metadata> item
+                        in list.SelectedItems
+                        select item;
+
+            double value = menu.Ascending ? -1 : 1;
+            foreach (var item in items)
+            {
+                list.Items.Remove(item);
+                item.Tag.DateTimeOriginal = item.Tag.DateTimeOriginal.AddMilliseconds(value);
+                list.Items.Add(item);
+                list.EnsureVisible(item.Index);
+            }
+        }
+
+        internal void MoveSelectedDown()
+        {
+            var items = from ListViewItem<Metadata> item
+                        in list.SelectedItems
+                        select item;
+
+            double value = menu.Ascending ? 1 : -1;
+            foreach (var item in items)
+            {
+                list.Items.Remove(item);
+                item.Tag.DateTimeOriginal = item.Tag.DateTimeOriginal.AddMilliseconds(value);
+                list.Items.Add(item);
+                list.EnsureVisible(item.Index);
+            }
+        }
     }
 }

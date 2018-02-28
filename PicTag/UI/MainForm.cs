@@ -104,5 +104,21 @@ namespace PicTag.UI
         {
             Close();
         }
+
+        private void ToolStripButton4_Click(object sender, EventArgs e)
+        {
+            if (menu.OrderBy != OrderByEnum.Date)
+                return;
+
+            list.MoveSelectedUp();
+        }
+
+        private void ToolStripButton2_Click(object sender, EventArgs e)
+        {
+            if (menu.OrderBy != OrderByEnum.Date)
+                return;
+
+            list.MoveSelectedDown();
+        }
     }
 }
