@@ -110,6 +110,8 @@ namespace PicTag.Data
                 {
                     meta.Source = Image.FromStream(stream);
                     meta.Source.Save(newPath);
+                    File.SetLastWriteTime(newPath, meta.DateTimeOriginal);
+                    File.SetCreationTime(newPath, meta.DateTimeOriginal);
                 }
                 File.Delete(tempPath);
             }
