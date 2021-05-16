@@ -14,10 +14,10 @@ namespace PicTag.UI
 {
     public partial class MainForm : Form
     {
-        private FormState source;
-        private MenuModule menu;
-        private ListModule list;
-        private TreeModule tree;
+        private readonly FormState source;
+        private readonly MenuModule menu;
+        private readonly ListModule list;
+        private readonly TreeModule tree;
 
         public MainForm()
         {

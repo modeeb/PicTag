@@ -24,7 +24,7 @@ namespace PicTag
             MenuModule menu = new MenuModule(source);
             TreeModule tree = new TreeModule(source);
             ListModule list = new ListModule(source, menu);
-            Application.Run(new MainForm(source, menu, tree, list));
+            Application.Run(new MainForm(menu, list, tree, source));
         }
     }
 }

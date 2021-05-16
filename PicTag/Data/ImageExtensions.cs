@@ -76,7 +76,7 @@ namespace PicTag.Data
 
         internal static Bitmap ResizeToBounds(this Image image, Size bounds)
         {
-            return new Bitmap(image);
+            //return new Bitmap(image);
 
             int maxDimension = Math.Max(image.Height, image.Width);
             int minDimension = Math.Min(bounds.Height, bounds.Width);
